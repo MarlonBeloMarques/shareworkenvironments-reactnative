@@ -18,8 +18,8 @@ export default function Photo(props) {
   ];
 
   const Image = styled.Image`
-    width: ${size}%;
-    height: ${height}%;
+    width: ${size}px;
+    height: ${height}px;
   `;
 
   return (
