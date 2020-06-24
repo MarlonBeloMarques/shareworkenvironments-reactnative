@@ -1,6 +1,9 @@
+/* eslint-disable global-require */
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
+import { useFonts } from '@use-expo/font';
+import { AppLoading } from 'expo';
 import { theme } from '../constants';
 
 export default function Typography(props) {
@@ -18,10 +21,10 @@ export default function Typography(props) {
     // estilos
     regular,
     bold,
-    semibold,
     medium,
     weight,
     light,
+    stylized,
     center,
     right,
     spacing, // letter-spacing
@@ -55,9 +58,9 @@ export default function Typography(props) {
     weight && { fontWeight: weight },
     regular && styles.regular,
     bold && styles.bold,
-    semibold && styles.semibold,
     medium && styles.medium,
     light && styles.light,
+    stylized && styles.stylized,
     center && styles.center,
     right && styles.right,
     color && styles[color],
@@ -72,6 +75,18 @@ export default function Typography(props) {
     style, // rewrite predefined styles
   ];
 
+  const [fontsLoaded] = useFonts({
+    'LilyScriptOne-Regular': require('../assets/fonts/LilyScriptOne-Regular.ttf'),
+    'Mada-Light': require('../assets/fonts/Mada-Light.ttf'),
+    'Mada-Medium': require('../assets/fonts/Mada-Medium.ttf'),
+    'Mada-Regular': require('../assets/fonts/Mada-Light.ttf'),
+    'Mada-Bold': require('../assets/fonts/Mada-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return <Text style={textStyles}>{children}</Text>;
 }
 
@@ -79,23 +94,24 @@ const styles = StyleSheet.create({
   // default style
   text: {
     fontSize: theme.sizes.font,
-    color: theme.colors.black,
+    color: theme.colors.white,
+    fontFamily: 'Mada-Regular',
   },
   // variations
+  stylized: {
+    fontFamily: 'LilyScriptOne-Regular',
+  },
   regular: {
-    fontWeight: 'normal',
+    fontFamily: 'Mada-Regular',
   },
   bold: {
-    fontWeight: 'bold',
-  },
-  semibold: {
-    fontWeight: '500',
+    fontFamily: 'Mada-Bold',
   },
   medium: {
-    fontWeight: '500',
+    fontFamily: 'Mada-Medium',
   },
   light: {
-    fontWeight: '200',
+    fontFamily: 'Mada-Light',
   },
   // position
   center: { textAlign: 'center' },
