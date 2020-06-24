@@ -15,9 +15,12 @@ export default function Input(props) {
     const { label, error } = props;
 
     return (
-      <Block padding={[0, 0, theme.sizes.base - 10, 4]} flex={false}>
+      <Block
+        padding={[0, 0, theme.sizes.base - 10, theme.sizes.base]}
+        flex={false}
+      >
         {label ? (
-          <Text gray={!error} accent={error}>
+          <Text bold white={!error} tertiary={error}>
             {label}
           </Text>
         ) : null}
@@ -128,21 +131,22 @@ export default function Input(props) {
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 2,
     borderColor: theme.colors.tertiary,
     borderRadius: theme.sizes.radius,
     fontSize: theme.sizes.font,
     color: theme.colors.white,
     paddingLeft: theme.sizes.base - 6,
     paddingRight: theme.sizes.base - 6,
+    height: theme.sizes.base * 3.5,
   },
   toggle: {
     position: 'absolute',
     alignItems: 'flex-end',
     width: theme.sizes.base * 2,
     height: theme.sizes.base * 2,
-    top: theme.sizes.base * 2.4,
-    paddingRight: theme.sizes.base - 6,
+    top: theme.sizes.base * 2.7,
+    paddingRight: theme.sizes.base,
     right: 0,
   },
 });

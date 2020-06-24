@@ -4,12 +4,14 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { Platform, Image } from 'react-native';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
+import SignupScreen from '../screens/SignupScreen';
 
 import { theme } from '../constants';
 
 const screens = createStackNavigator(
   {
     welcome: WelcomeScreen,
+    signup: SignupScreen,
   },
   {
     defaultNavigationOptions: {
@@ -24,9 +26,10 @@ const screens = createStackNavigator(
         <Image
           // eslint-disable-next-line global-require
           source={require('../assets/icons/back.png')}
-          style={{ marginRight: 5 }}
+          style={{ width: 26, height: 26, marginRight: 5 }}
         />
       ),
+      headerBackTitleVisible: null,
       title: null,
       headerLeftContainerStyle: {
         alignItems: 'center',

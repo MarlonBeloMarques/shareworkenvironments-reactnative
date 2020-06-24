@@ -3,7 +3,10 @@ import { Block, Text, Photo, Button } from '../../elements';
 import logo from '../../assets/images/logo.png';
 import { theme } from '../../constants';
 
-export default function App() {
+export default function WelcomeScreen(props) {
+  function onSignupClicked() {
+    props.navigation.navigate('signup');
+  }
   return (
     // eslint-disable-next-line no-use-before-define
     <Block
@@ -32,7 +35,7 @@ export default function App() {
             Continue with Facebook
           </Text>
         </Button>
-        <Button color="tertiary">
+        <Button onPress={onSignupClicked} color="tertiary">
           <Text center stylized>
             Sign Up
           </Text>
