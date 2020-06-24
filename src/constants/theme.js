@@ -11,11 +11,11 @@ const sizes = {
   // global sizes
   base: 16,
   font: 14,
-  radius: 6,
+  radius: 12,
   padding: 25,
 
   // font sizes
-  h1: 26,
+  h1: 38,
   h2: 20,
   h3: 18,
   title: 18,
