@@ -1,6 +1,7 @@
 import React from 'react';
 import { Block, Text, Photo, Button } from '../../elements';
 import logo from '../../assets/images/logo.png';
+import facebook from '../../assets/images/facebook.png';
 import { theme } from '../../constants';
 
 export default function WelcomeScreen(props) {
@@ -31,9 +32,17 @@ export default function WelcomeScreen(props) {
       </Block>
       <Block margin={[theme.sizes.padding * 2, 0]} flex={false}>
         <Button color="secondary">
-          <Text center stylized>
-            Continue with Facebook
-          </Text>
+          <Block middle row flex={false}>
+            <Photo
+              size={20}
+              height={20}
+              image={facebook}
+              style={{ marginRight: theme.sizes.caption }}
+            />
+            <Text center stylized>
+              Continue with Facebook
+            </Text>
+          </Block>
         </Button>
         <Button onPress={onSignupClicked} color="tertiary">
           <Text center stylized>
