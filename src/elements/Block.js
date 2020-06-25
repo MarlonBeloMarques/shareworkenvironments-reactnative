@@ -1,7 +1,9 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable consistent-return */
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import PropTypes from 'prop-types';
 import { theme } from '../constants';
 
 export default function Block(props) {
@@ -119,10 +121,15 @@ export default function Block(props) {
     border,
     fullBorder,
     children,
+    absolute,
+    key,
+    index,
   } = props;
 
   const blockStyles = [
     styles.block,
+    absolute && styles.absolute,
+    index && { zIndex: index },
     size && { height: size },
     border && styles.border,
     fullBorder && styles.fullBorder,
@@ -147,7 +154,14 @@ export default function Block(props) {
     style, // reescrever estilos predefinidos
   ];
 
-  return <View style={blockStyles}>{children}</View>;
+  return (
+    <View
+      key={key}
+      style={[absolute === true ? StyleSheet.absoluteFill : null, blockStyles]}
+    >
+      {children}
+    </View>
+  );
 }
 
 export const styles = StyleSheet.create({
@@ -204,3 +218,8 @@ export const styles = StyleSheet.create({
   gray: { backgroundColor: theme.colors.gray },
   gray2: { backgroundColor: theme.colors.gray2 },
 });
+
+Block.propTypes = {
+  absolute: (PropTypes.bool = false),
+  key: (PropTypes.string = ''),
+};
