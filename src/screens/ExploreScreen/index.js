@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList } from 'react-native';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { AntDesign } from '@expo/vector-icons';
 import { Block, Text, Photo, Button } from '../../elements';
 import { theme } from '../../constants';
@@ -83,6 +84,23 @@ export default function WelcomeScreen() {
         <Block middle flex={false}>
           <Photo avatar image={data.user.avatar} />
         </Block>
+      </Block>
+      <Block
+        margin={[
+          maxHeight / 1.3,
+          theme.sizes.base * 6,
+          theme.sizes.base,
+          theme.sizes.base * 6,
+        ]}
+        bottom
+        absolute
+        index={2}
+      >
+        <Button color="secondary">
+          <Text center white stylized>
+            Search
+          </Text>
+        </Button>
       </Block>
       <Block
         flex={false}
