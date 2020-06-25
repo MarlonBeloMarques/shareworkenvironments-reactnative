@@ -204,7 +204,7 @@ export const styles = StyleSheet.create({
   },
   border: {
     borderBottomWidth: 1,
-    borderColor: theme.colors.gray3,
+    borderColor: theme.colors.gray2,
   },
   fullBorder: {
     borderWidth: 1,

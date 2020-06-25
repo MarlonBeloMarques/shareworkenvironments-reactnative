@@ -5,15 +5,16 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import { theme } from '../constants';
 
 export default function Photo(props) {
-  const { size, height, style, content, avatar } = props;
+  const { size, height, style, avatar, card } = props;
 
   const blockStyles = [
-    content === true && { width: size, height },
     // eslint-disable-next-line no-use-before-define
     size && height && Image,
     avatar && styles.avatar,
+    card && styles.card,
     style, // reescrever estilos predefinidos
   ];
 
@@ -38,6 +39,9 @@ export const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 26,
+  },
+  card: {
+    borderRadius: theme.sizes.radius,
   },
 });
 
