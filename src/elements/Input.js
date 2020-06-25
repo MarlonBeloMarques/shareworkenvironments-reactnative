@@ -120,6 +120,7 @@ export default function Input(props) {
         onChangeText={onChangeText}
         returnKeyType={keyType}
         onSubmitEditing={submitEditing}
+        selectionColor={theme.colors.tertiary}
         ref={reference}
         {...props}
       />
