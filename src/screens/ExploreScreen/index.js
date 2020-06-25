@@ -11,7 +11,7 @@ import styles from './styles';
 const maxWidth = Dimensions.get('window').width;
 const maxHeight = Dimensions.get('window').height;
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen(props) {
   const [dataSource, setDataSource] = useState();
 
   useEffect(() => {
@@ -21,6 +21,10 @@ export default function WelcomeScreen() {
     const rowsImage = resizeImages.normalizeRows(rows, maxWidth);
     setDataSource(rowsImage);
   }, []);
+
+  function handleSubmit(id) {
+    props.navigation.navigate('work', { id });
+  }
 
   function renderItem({ item }) {
     return (
@@ -45,7 +49,7 @@ export default function WelcomeScreen() {
   function Item({ item }) {
     return (
       <Block flex={false}>
-        <Button style>
+        <Button style onPress={() => handleSubmit(item.id)}>
           <Block margin={[theme.sizes.caption / 2]} bottom index={2} absolute>
             <Button style>{renderLike(item.like)}</Button>
           </Block>
@@ -77,7 +81,7 @@ export default function WelcomeScreen() {
       >
         <Block color="primary" absolute style={styles.header} />
         <Block middle>
-          <Text h2 bold>
+          <Text h3 bold>
             SWE.
           </Text>
         </Block>

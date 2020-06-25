@@ -6,6 +6,7 @@ import { Platform, Image } from 'react-native';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SignupScreen from '../screens/SignupScreen';
 import ExploreScreen from '../screens/ExploreScreen';
+import WorkScreen from '../screens/WorkScreen';
 
 import { theme } from '../constants';
 
@@ -14,6 +15,19 @@ const screens = createStackNavigator(
     welcome: WelcomeScreen,
     signup: SignupScreen,
     explore: ExploreScreen,
+    work: {
+      screen: WorkScreen,
+      navigationOptions: {
+        headerTransparent: true,
+        headerBackImage: (
+          <Image
+            // eslint-disable-next-line global-require
+            source={require('../assets/icons/back_black.png')}
+            style={{ width: 26, height: 26, marginRight: 5 }}
+          />
+        ),
+      },
+    },
   },
   {
     defaultNavigationOptions: {
