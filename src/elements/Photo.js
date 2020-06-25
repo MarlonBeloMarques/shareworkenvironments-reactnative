@@ -35,8 +35,8 @@ export default function Photo(props) {
 
 export const styles = StyleSheet.create({
   avatar: {
-    width: 42,
-    height: 42,
+    width: 32,
+    height: 32,
     borderRadius: 26,
   },
 });

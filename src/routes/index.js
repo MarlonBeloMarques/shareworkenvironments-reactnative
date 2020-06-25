@@ -5,6 +5,7 @@ import { Platform, Image } from 'react-native';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SignupScreen from '../screens/SignupScreen';
+import ExploreScreen from '../screens/ExploreScreen';
 
 import { theme } from '../constants';
 
@@ -12,6 +13,7 @@ const screens = createStackNavigator(
   {
     welcome: WelcomeScreen,
     signup: SignupScreen,
+    explore: ExploreScreen,
   },
   {
     defaultNavigationOptions: {

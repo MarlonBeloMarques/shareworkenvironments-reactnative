@@ -8,6 +8,11 @@ export default function WelcomeScreen(props) {
   function onSignupClicked() {
     props.navigation.navigate('signup');
   }
+
+  function onContinueClicked() {
+    props.navigation.navigate('explore');
+  }
+
   return (
     // eslint-disable-next-line no-use-before-define
     <Block
@@ -31,7 +36,7 @@ export default function WelcomeScreen(props) {
         </Text>
       </Block>
       <Block margin={[theme.sizes.padding * 2, 0]} flex={false}>
-        <Button color="secondary">
+        <Button onPress={onContinueClicked} color="secondary">
           <Block middle row flex={false}>
             <Photo
               size={20}

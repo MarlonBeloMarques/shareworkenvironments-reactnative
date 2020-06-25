@@ -194,7 +194,7 @@ export const styles = StyleSheet.create({
   },
   fullBorder: {
     borderWidth: 1,
-    borderColor: theme.colors.gray3,
+    borderColor: theme.colors.white,
   },
 
   primary: { backgroundColor: theme.colors.primary },
