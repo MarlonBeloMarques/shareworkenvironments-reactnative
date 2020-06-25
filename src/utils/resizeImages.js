@@ -1,13 +1,13 @@
 /* eslint-disable no-plusplus */
 export const TARGET_HEIGHT = 100;
-export const BORDER_OFFSET = 5;
+export const BORDER_OFFSET = 10;
 
 function makeSmaller(image, amount) {
   amount = amount || 1;
 
-  const newHeight = image.height - amount;
-  image.width *= newHeight / image.height;
-  image.height = newHeight;
+  const newHeight = image.backgroundHeight - amount;
+  image.backgroundWidth *= newHeight / image.backgroundHeight;
+  image.backgroundHeight = newHeight;
 
   return image;
 }
@@ -16,7 +16,7 @@ function getCumulativeWidth(images) {
   let width = 0;
 
   for (let i = 0; i < images.length; i++) {
-    width += images[i].width;
+    width += images[i].backgroundWidth;
   }
 
   width += (images.length - 1) * BORDER_OFFSET;
@@ -36,9 +36,9 @@ function fitImagesInRow(images, maxWidth) {
 
 export function processImages(photos) {
   return photos.map((photo) => {
-    const aspectRatio = photo.width / photo.height;
-    photo.width = TARGET_HEIGHT * aspectRatio;
-    photo.height = TARGET_HEIGHT;
+    const aspectRatio = photo.backgroundWidth / photo.backgroundHeight;
+    photo.backgroundWidth = TARGET_HEIGHT * aspectRatio;
+    photo.backgroundHeight = TARGET_HEIGHT;
     return photo;
   });
 }
@@ -58,7 +58,7 @@ export function buildRows(processedImages, maxWidth) {
     }
 
     rows[currentRow].push(image);
-    currentWidth += image.width;
+    currentWidth += image.backgroundWidth;
   });
   return rows;
 }
@@ -73,9 +73,9 @@ export function normalizeRows(rows, maxWidth) {
     if (amountOfImages > 1 && difference < 10) {
       const addToEach = difference / amountOfImages;
       for (let n = 0; n < rows[i].length; n++) {
-        rows[i][n].width += addToEach;
+        rows[i][n].backgroundWidth += addToEach;
       }
-      rows[i][rows[i].length - 1].width +=
+      rows[i][rows[i].length - 1].backgroundWidth +=
         maxWidth - getCumulativeWidth(rows[i]);
     }
   }
