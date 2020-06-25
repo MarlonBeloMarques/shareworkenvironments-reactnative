@@ -7,6 +7,7 @@ const user = {
 const content = [
   {
     id: '1',
+    like: true,
     title: 'Kojima Productions',
     address: '2972 Westheimer Rd. Santa Ana, Illinois 85486',
     about:
@@ -24,6 +25,7 @@ const content = [
   },
   {
     id: '2',
+    like: false,
     title: 'Nubank',
     address: '1901 Thornridge Cir. Shiloh, Hawaii 81063',
     about:
@@ -41,6 +43,7 @@ const content = [
   },
   {
     id: '3',
+    like: false,
     title: 'Facebook',
     address: '8502 Preston Rd. Inglewood, Maine 98380',
     about:
@@ -57,6 +60,7 @@ const content = [
   },
   {
     id: '4',
+    like: false,
     title: 'Google',
     address: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     about:

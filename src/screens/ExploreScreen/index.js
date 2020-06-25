@@ -1,7 +1,8 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList } from 'react-native';
-import { Block, Text, Photo } from '../../elements';
+import { AntDesign } from '@expo/vector-icons';
+import { Block, Text, Photo, Button } from '../../elements';
 import { theme } from '../../constants';
 import { data, resizeImages } from '../../utils';
 import styles from './styles';
@@ -30,13 +31,30 @@ export default function WelcomeScreen() {
     );
   }
 
+  function renderLike(item) {
+    if (item) {
+      return (
+        <AntDesign name="heart" size={14} color={theme.colors.secondary} />
+      );
+    }
+
+    return <AntDesign name="hearto" size={14} color={theme.colors.white} />;
+  }
+
   function Item({ item }) {
     return (
-      <Photo
-        size={item.backgroundWidth}
-        height={item.backgroundHeight}
-        image={item.background}
-      />
+      <Block flex={false}>
+        <Button style>
+          <Block margin={[theme.sizes.caption / 2]} bottom index={2} absolute>
+            <Button style>{renderLike(item.like)}</Button>
+          </Block>
+          <Photo
+            size={item.backgroundWidth}
+            height={item.backgroundHeight}
+            image={item.background}
+          />
+        </Button>
+      </Block>
     );
   }
 
