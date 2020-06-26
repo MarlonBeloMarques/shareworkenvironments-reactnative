@@ -155,7 +155,7 @@ function WorkDetailScreen(props) {
         absolute
         size={40}
         index={5}
-        style={{ top: theme.sizes.base * 17 }}
+        style={{ top: maxHeight / 3 }}
       >
         <Text h2 bold>
           {work.title}
