@@ -200,10 +200,24 @@ function WorkDetailScreen(props) {
             flex={false}
           >
             <Block padding={[0, 15, 0, 0]} flex={false}>
-              <Photo size={80} height={80} card image={work.image1} />
+              <Image
+                source={{ uri: work.image1 }}
+                style={{
+                  borderRadius: theme.sizes.radius,
+                  width: 80,
+                  height: 80,
+                }}
+              />
             </Block>
             <Block padding={[0, 15, 0, 0]} flex={false}>
-              <Photo size={80} height={80} card image={work.image2} />
+              <Image
+                source={{ uri: work.image2 }}
+                style={{
+                  borderRadius: theme.sizes.radius,
+                  width: 80,
+                  height: 80,
+                }}
+              />
             </Block>
             <Block flex={false}>
               <Button style={styles.plus}>
