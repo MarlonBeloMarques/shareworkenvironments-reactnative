@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, ScrollView } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Block, Photo, Text, Button } from '../../elements';
 
@@ -9,8 +9,8 @@ import styles from './styles';
 
 const maxWidth = Dimensions.get('window').width;
 
-export default function WorkScreen(props) {
-  const id = props.navigation.getParam('id');
+function WorkDetailScreen(props) {
+  const { photo, onClose } = props;
 
   const [work, setWork] = useState({
     id: '',
@@ -27,7 +27,7 @@ export default function WorkScreen(props) {
   useEffect(() => {
     function findWork() {
       data.content.map((item) => {
-        if (item.id === id) {
+        if (item.id === photo.id) {
           setWork({
             id: item.id,
             like: item.like,
@@ -47,8 +47,17 @@ export default function WorkScreen(props) {
   }, []);
 
   return (
-    // eslint-disable-next-line no-use-before-define
-    <ScrollView style={styles.container}>
+    <Block style={[StyleSheet.absoluteFill]} flex={false}>
+      <Block
+        margin={[theme.sizes.padding * 2, theme.sizes.base]}
+        flex={false}
+        absolute
+        index={2}
+      >
+        <Button style onPress={onClose}>
+          <AntDesign name="close" size={28} color={theme.colors.secondary} />
+        </Button>
+      </Block>
       <Photo size={maxWidth} height={280} image={work.background} />
       <Block
         margin={[0, theme.sizes.base * 2, 0, theme.sizes.base * 2]}
@@ -114,6 +123,26 @@ export default function WorkScreen(props) {
           </Block>
         </Block>
       </Block>
+    </Block>
+  );
+}
+
+export default function WorkScreen(props) {
+  const [photo, setPhoto] = useState(null);
+
+  function open(photo) {
+    setPhoto(photo);
+  }
+  function close() {
+    setPhoto(null);
+  }
+
+  return (
+    // eslint-disable-next-line no-use-before-define
+    <ScrollView>
+      {props.onClosed({ onClosed: photo === null })}
+      {props.renderContent({ onPhotoOpen: open })}
+      {photo && <WorkDetailScreen photo={photo} onClose={close} />}
     </ScrollView>
   );
 }
