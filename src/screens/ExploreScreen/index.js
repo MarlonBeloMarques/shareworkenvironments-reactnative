@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Dimensions, FlatList, Image } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AntDesign } from '@expo/vector-icons';
@@ -40,6 +40,7 @@ export default function ExploreScreen(props) {
   }
 
   function Item({ item, onPhotoOpen, dimensionPhotoClicked }) {
+    const elementRef = useRef();
     const [dimensions, setDimensions] = useState({
       x: 0,
       y: 0,
@@ -60,10 +61,14 @@ export default function ExploreScreen(props) {
             <Button style>{renderLike(item.like)}</Button>
           </Block>
           <Image
+            ref={elementRef}
             source={{ uri: item.background }}
             onLayout={(event) => {
-              const { x, y, height, width } = event.nativeEvent.layout;
-              setDimensions({ x, y, height, width });
+              if (elementRef) {
+                elementRef.current.measureInWindow((x, y, width, height) => {
+                  setDimensions({ x, y, height, width });
+                });
+              }
             }}
             style={{
               width: item.backgroundWidth,

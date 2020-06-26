@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet, Animated } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Animated,
+  Image,
+} from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Block, Photo, Text, Button } from '../../elements';
 
@@ -13,6 +19,7 @@ function WorkDetailScreen(props) {
   const { photo, onClose, sourcePhotoDimensions } = props;
 
   const [openProgress, setOpenProgress] = useState(new Animated.Value(0));
+  const [openMeasurements, setOpenMeasurements] = useState(null);
 
   const [sourcePhoto, setSourcePhoto] = useState({
     x: sourcePhotoDimensions.x,
@@ -20,6 +27,8 @@ function WorkDetailScreen(props) {
     width: sourcePhotoDimensions.width,
     height: sourcePhotoDimensions.height,
   });
+
+  const elementRef = useRef();
 
   const [destinePhoto, setDestinePhoto] = useState({
     x: 0,
@@ -69,15 +78,21 @@ function WorkDetailScreen(props) {
     }).start();
   }, []);
 
+  setTimeout(() => {
+    setOpenMeasurements({
+      sourceX: sourcePhoto.x,
+      sourceY: sourcePhoto.y,
+      sourceWidth: sourcePhoto.width,
+      sourceHeight: sourcePhoto.height,
+      destX: destinePhoto.x,
+      destY: destinePhoto.y,
+      destWidth: destinePhoto.width,
+      destHeight: destinePhoto.height,
+    });
+  });
+
   return (
-    <Block
-      style={[StyleSheet.absoluteFill]}
-      onLayout={(event) => {
-        const { x, y, width, height } = event.nativeEvent.layout;
-        setDestinePhoto({ x, y, width, height });
-      }}
-      flex={false}
-    >
+    <Block style={[StyleSheet.absoluteFill]} flex={false}>
       <Block
         margin={[theme.sizes.padding * 2, theme.sizes.base]}
         flex={false}
@@ -88,7 +103,22 @@ function WorkDetailScreen(props) {
           <AntDesign name="close" size={28} color={theme.colors.secondary} />
         </Button>
       </Block>
-      <Photo size={maxWidth} height={280} image={work.background} />
+      <Animated.Image
+        ref={elementRef}
+        onLayout={(event) => {
+          const { x, y, width, height } = event.nativeEvent.layout;
+          setDestinePhoto({ x, y, width, height });
+        }}
+        source={{ uri: work.background }}
+        style={{
+          width: maxWidth,
+          height: 280,
+          opacity: openProgress.interpolate({
+            inputRange: [0.8, 1],
+            outputRange: [0, 1],
+          }),
+        }}
+      />
       <Block
         margin={[0, theme.sizes.base * 2, 0, theme.sizes.base * 2]}
         absolute
@@ -99,6 +129,36 @@ function WorkDetailScreen(props) {
           {work.title}
         </Text>
       </Block>
+      {openMeasurements && (
+        <Animated.Image
+          source={{ uri: work.background }}
+          style={{
+            position: 'absolute',
+            width: openProgress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [
+                openMeasurements.sourceWidth,
+                openMeasurements.destWidth,
+              ],
+            }),
+            height: openProgress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [
+                openMeasurements.sourceHeight,
+                openMeasurements.destHeight,
+              ],
+            }),
+            left: openProgress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [openMeasurements.sourceX, openMeasurements.destX],
+            }),
+            top: openProgress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [openMeasurements.sourceY, openMeasurements.destY],
+            }),
+          }}
+        />
+      )}
       <Block
         padding={[
           theme.sizes.base,
