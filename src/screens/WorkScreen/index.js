@@ -23,7 +23,7 @@ import { Gallery } from '../../components';
 const maxWidth = Dimensions.get('window').width;
 const maxHeight = Dimensions.get('window').height;
 
-function WorkDetailScreen(props) {
+const WorkDetailScreen = (props) => {
   const { photo, onClose, sourcePhotoDimensions } = props;
   const [showGallery, setShowGallery] = useState(false);
 
@@ -100,7 +100,7 @@ function WorkDetailScreen(props) {
       destWidth: destinePhoto.width,
       destHeight: destinePhoto.height,
     });
-  });
+  }, 1000);
 
   function onClickGallery() {
     setShowGallery(true);
@@ -272,7 +272,7 @@ function WorkDetailScreen(props) {
       </Block>
     </Block>
   );
-}
+};
 
 WorkDetailScreen.defaultProps = {
   startColor: 'rgba(52, 52, 52, 0.0)',
