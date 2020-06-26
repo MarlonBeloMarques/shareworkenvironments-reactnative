@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList } from 'react-native';
+import { Dimensions, FlatList, Image } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -39,22 +39,36 @@ export default function ExploreScreen(props) {
     return <AntDesign name="hearto" size={14} color={theme.colors.white} />;
   }
 
-  function Item({ item, onPhotoOpen }) {
+  function Item({ item, onPhotoOpen, dimensionPhotoClicked }) {
+    const [dimensions, setDimensions] = useState({
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    });
+
     return (
       <Block flex={false}>
         <TouchableWithoutFeedback
           onPress={() => {
             onPhotoOpen(item);
+            dimensionPhotoClicked(dimensions);
             setIsExplore(false);
           }}
         >
           <Block margin={[theme.sizes.caption / 2]} bottom index={2} absolute>
             <Button style>{renderLike(item.like)}</Button>
           </Block>
-          <Photo
-            size={item.backgroundWidth}
-            height={item.backgroundHeight}
-            image={item.background}
+          <Image
+            source={{ uri: item.background }}
+            onLayout={(event) => {
+              const { x, y, height, width } = event.nativeEvent.layout;
+              setDimensions({ x, y, height, width });
+            }}
+            style={{
+              width: item.backgroundWidth,
+              height: item.backgroundHeight,
+            }}
           />
         </TouchableWithoutFeedback>
       </Block>
@@ -111,7 +125,7 @@ export default function ExploreScreen(props) {
 
       <WorkScreen
         onClosed={({ onClosed }) => setIsExplore(onClosed)}
-        renderContent={({ onPhotoOpen }) => (
+        renderContent={({ onPhotoOpen, dimensionPhotoClicked }) => (
           <Block
             flex={false}
             padding={[
@@ -127,7 +141,12 @@ export default function ExploreScreen(props) {
               renderItem={({ item }) => (
                 <Block space="between" row margin={[0, 0, 5, 0]}>
                   {item.map((item) => (
-                    <Item item={item} key={item.id} onPhotoOpen={onPhotoOpen} />
+                    <Item
+                      item={item}
+                      key={item.id}
+                      onPhotoOpen={onPhotoOpen}
+                      dimensionPhotoClicked={dimensionPhotoClicked}
+                    />
                   ))}
                 </Block>
               )}

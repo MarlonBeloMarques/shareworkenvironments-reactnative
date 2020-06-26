@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, Animated } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Block, Photo, Text, Button } from '../../elements';
 
@@ -10,7 +10,23 @@ import styles from './styles';
 const maxWidth = Dimensions.get('window').width;
 
 function WorkDetailScreen(props) {
-  const { photo, onClose } = props;
+  const { photo, onClose, sourcePhotoDimensions } = props;
+
+  const [openProgress, setOpenProgress] = useState(new Animated.Value(0));
+
+  const [sourcePhoto, setSourcePhoto] = useState({
+    x: sourcePhotoDimensions.x,
+    y: sourcePhotoDimensions.y,
+    width: sourcePhotoDimensions.width,
+    height: sourcePhotoDimensions.height,
+  });
+
+  const [destinePhoto, setDestinePhoto] = useState({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  });
 
   const [work, setWork] = useState({
     id: '',
@@ -46,8 +62,22 @@ function WorkDetailScreen(props) {
     findWork();
   }, []);
 
+  useEffect(() => {
+    Animated.timing(openProgress, {
+      toValue: 1,
+      duration: 300,
+    }).start();
+  }, []);
+
   return (
-    <Block style={[StyleSheet.absoluteFill]} flex={false}>
+    <Block
+      style={[StyleSheet.absoluteFill]}
+      onLayout={(event) => {
+        const { x, y, width, height } = event.nativeEvent.layout;
+        setDestinePhoto({ x, y, width, height });
+      }}
+      flex={false}
+    >
       <Block
         margin={[theme.sizes.padding * 2, theme.sizes.base]}
         flex={false}
@@ -129,6 +159,7 @@ function WorkDetailScreen(props) {
 
 export default function WorkScreen(props) {
   const [photo, setPhoto] = useState(null);
+  const [dimensions, setDimensions] = useState({});
 
   function open(photo) {
     setPhoto(photo);
@@ -137,12 +168,25 @@ export default function WorkScreen(props) {
     setPhoto(null);
   }
 
+  function sourcePhoto(dimensions) {
+    setDimensions(dimensions);
+  }
+
   return (
     // eslint-disable-next-line no-use-before-define
     <ScrollView>
       {props.onClosed({ onClosed: photo === null })}
-      {props.renderContent({ onPhotoOpen: open })}
-      {photo && <WorkDetailScreen photo={photo} onClose={close} />}
+      {props.renderContent({
+        onPhotoOpen: open,
+        dimensionPhotoClicked: sourcePhoto,
+      })}
+      {photo && (
+        <WorkDetailScreen
+          photo={photo}
+          onClose={close}
+          sourcePhotoDimensions={dimensions}
+        />
+      )}
     </ScrollView>
   );
 }
