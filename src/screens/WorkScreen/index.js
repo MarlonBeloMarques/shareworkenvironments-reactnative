@@ -7,13 +7,15 @@ import {
   Image,
 } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { Block, Photo, Text, Button } from '../../elements';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Block, Text, Button } from '../../elements';
 
 import { theme } from '../../constants';
 import { data } from '../../utils';
 import styles from './styles';
 
 const maxWidth = Dimensions.get('window').width;
+const maxHeight = Dimensions.get('window').height;
 
 function WorkDetailScreen(props) {
   const { photo, onClose, sourcePhotoDimensions } = props;
@@ -27,6 +29,8 @@ function WorkDetailScreen(props) {
     width: sourcePhotoDimensions.width,
     height: sourcePhotoDimensions.height,
   });
+
+  const { startColor, endColor, locations } = props;
 
   const elementRef = useRef();
 
@@ -100,7 +104,7 @@ function WorkDetailScreen(props) {
         index={2}
       >
         <Button style onPress={onClose}>
-          <AntDesign name="close" size={28} color={theme.colors.secondary} />
+          <AntDesign name="close" size={28} color={theme.colors.primary} />
         </Button>
       </Block>
       <Animated.Image
@@ -112,7 +116,7 @@ function WorkDetailScreen(props) {
         source={{ uri: work.background }}
         style={{
           width: maxWidth,
-          height: 280,
+          height: 320,
           opacity: openProgress.interpolate({
             inputRange: [0.8, 1],
             outputRange: [0, 1],
@@ -122,8 +126,8 @@ function WorkDetailScreen(props) {
       <Block
         margin={[0, theme.sizes.base * 2, 0, theme.sizes.base * 2]}
         absolute
-        index={2}
-        style={{ top: theme.sizes.base * 15 }}
+        index={5}
+        style={{ top: theme.sizes.base * 17 }}
       >
         <Text h2 bold>
           {work.title}
@@ -159,77 +163,94 @@ function WorkDetailScreen(props) {
           }}
         />
       )}
-      <Block
-        padding={[
-          theme.sizes.base,
-          theme.sizes.base * 2,
-          theme.sizes.base,
-          theme.sizes.base * 2,
-        ]}
-      >
-        <Text bold>{work.address}</Text>
-        <Block padding={[theme.sizes.base, 0]} border center row flex={false}>
-          <Block row left>
-            <AntDesign name="heart" size={28} color={theme.colors.secondary} />
-          </Block>
-          <Block row right>
-            <Ionicons
-              name="ios-share"
-              size={28}
-              color={theme.colors.secondary}
-            />
-          </Block>
-        </Block>
-        <Block flex={false} margin={[theme.sizes.base * 2, 0]}>
-          <Text h3 bold>
-            About
-          </Text>
-          <Block flex={false} margin={[theme.sizes.base, 0]}>
-            <Text>{work.about}</Text>
-          </Block>
-        </Block>
-
-        <Block flex={false}>
-          <Text bold h3>
-            Galeria
-          </Text>
-
-          <Block
-            padding={[theme.sizes.base * 2, theme.sizes.base]}
-            row
-            flex={false}
-          >
-            <Block padding={[0, 15, 0, 0]} flex={false}>
-              <Image
-                source={{ uri: work.image1 }}
-                style={{
-                  borderRadius: theme.sizes.radius,
-                  width: 80,
-                  height: 80,
-                }}
-              />
+      <Block absolute index={4} style={{ top: maxHeight / 3.5 }}>
+        <LinearGradient
+          locations={locations}
+          colors={[startColor, endColor]}
+          style={{ paddingTop: theme.sizes.base * 5 }}
+        >
+          <Block flex={false} padding={[0, theme.sizes.base * 2]}>
+            <Text bold>{work.address}</Text>
+            <Block
+              padding={[theme.sizes.base, 0]}
+              border
+              center
+              row
+              flex={false}
+            >
+              <Block row left>
+                <AntDesign
+                  name="heart"
+                  size={28}
+                  color={theme.colors.secondary}
+                />
+              </Block>
+              <Block row right>
+                <Ionicons
+                  name="ios-share"
+                  size={28}
+                  color={theme.colors.secondary}
+                />
+              </Block>
             </Block>
-            <Block padding={[0, 15, 0, 0]} flex={false}>
-              <Image
-                source={{ uri: work.image2 }}
-                style={{
-                  borderRadius: theme.sizes.radius,
-                  width: 80,
-                  height: 80,
-                }}
-              />
+            <Block flex={false} margin={[theme.sizes.base * 2, 0]}>
+              <Text h3 bold>
+                About
+              </Text>
+              <Block flex={false} margin={[theme.sizes.base, 0]}>
+                <Text>{work.about}</Text>
+              </Block>
             </Block>
+
             <Block flex={false}>
-              <Button style={styles.plus}>
-                <Text h3>+3</Text>
-              </Button>
+              <Text bold h3>
+                Galeria
+              </Text>
+
+              <Block
+                padding={[theme.sizes.base * 2, theme.sizes.base]}
+                row
+                flex={false}
+              >
+                <Block padding={[0, 15, 0, 0]} flex={false}>
+                  <Image
+                    source={{ uri: work.image1 }}
+                    style={{
+                      borderRadius: theme.sizes.radius,
+                      width: 80,
+                      height: 80,
+                    }}
+                  />
+                </Block>
+                <Block padding={[0, 15, 0, 0]} flex={false}>
+                  <Image
+                    source={{ uri: work.image2 }}
+                    style={{
+                      borderRadius: theme.sizes.radius,
+                      width: 80,
+                      height: 80,
+                    }}
+                  />
+                </Block>
+                <Block flex={false}>
+                  <Button style={styles.plus}>
+                    <Text h3>+3</Text>
+                  </Button>
+                </Block>
+              </Block>
             </Block>
           </Block>
-        </Block>
+        </LinearGradient>
       </Block>
     </Block>
   );
 }
+
+WorkDetailScreen.defaultProps = {
+  startColor: 'rgba(52, 52, 52, 0.0)',
+  endColor: theme.colors.primary,
+  locations: [0, 0.12],
+};
 
 export default function WorkScreen(props) {
   const [photo, setPhoto] = useState(null);
@@ -248,7 +269,7 @@ export default function WorkScreen(props) {
 
   return (
     // eslint-disable-next-line no-use-before-define
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       {props.onClosed({ onClosed: photo === null })}
       {props.renderContent({
         onPhotoOpen: open,

@@ -1,9 +1,10 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState, useRef } from 'react';
-import { Dimensions, FlatList, Image } from 'react-native';
+import { Dimensions, FlatList, Image, StyleSheet } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Block, Text, Photo, Button } from '../../elements';
 import { theme } from '../../constants';
 import { data, resizeImages } from '../../utils';
@@ -16,6 +17,8 @@ const maxHeight = Dimensions.get('window').height;
 export default function ExploreScreen(props) {
   const [dataSource, setDataSource] = useState();
   const [isExplore, setIsExplore] = useState(true);
+
+  const { startColor, endColor, locations } = props;
 
   useEffect(() => {
     const processedImages = resizeImages.processImages(data.content);
@@ -84,28 +87,30 @@ export default function ExploreScreen(props) {
     // eslint-disable-next-line no-use-before-define
     <Block>
       {isExplore && (
-        <Block
-          size={64}
-          padding={[
-            theme.sizes.base,
-            theme.sizes.base * 2,
-            0,
-            theme.sizes.base * 2,
-          ]}
-          absolute
-          index={4}
-          flex={false}
-          row
-        >
-          <Block color="primary" absolute style={styles.header} />
-          <Block middle>
-            <Text h3 bold>
-              SWE.
-            </Text>
-          </Block>
-          <Block middle flex={false}>
-            <Photo avatar image={data.user.avatar} />
-          </Block>
+        <Block size={64} absolute index={4} flex={false}>
+          <LinearGradient
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                flexDirection: 'row',
+                paddingTop: theme.sizes.base,
+                paddingRight: theme.sizes.base * 2,
+                paddingLeft: theme.sizes.base * 2,
+              },
+            ]}
+            locations={locations}
+            colors={[startColor, endColor]}
+          >
+            <Block color="primary" absolute style={styles.header} />
+            <Block middle>
+              <Text h3 bold>
+                SWE.
+              </Text>
+            </Block>
+            <Block middle flex={false}>
+              <Photo avatar image={data.user.avatar} />
+            </Block>
+          </LinearGradient>
         </Block>
       )}
       {isExplore && (
@@ -162,3 +167,10 @@ export default function ExploreScreen(props) {
     </Block>
   );
 }
+
+ExploreScreen.defaultProps = {
+  startColor: theme.colors.primary,
+  endColor: 'rgba(52, 52, 52, 0.0)',
+  locations: [0.4, 1],
+  opacity: 0.8,
+};
