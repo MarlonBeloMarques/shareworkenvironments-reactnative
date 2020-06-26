@@ -66,6 +66,7 @@ export default function ExploreScreen(props) {
           <Image
             ref={elementRef}
             source={{ uri: item.background }}
+            // eslint-disable-next-line no-unused-vars
             onLayout={(event) => {
               if (elementRef) {
                 elementRef.current.measureInWindow((x, y, width, height) => {
@@ -76,6 +77,8 @@ export default function ExploreScreen(props) {
             style={{
               width: item.backgroundWidth,
               height: item.backgroundHeight,
+              maxWidth: 160,
+              borderRadius: theme.sizes.base,
             }}
           />
         </TouchableWithoutFeedback>
