@@ -1,3 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-shadow */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Dimensions,
@@ -13,12 +18,14 @@ import { Block, Text, Button } from '../../elements';
 import { theme } from '../../constants';
 import { data } from '../../utils';
 import styles from './styles';
+import { Gallery } from '../../components';
 
 const maxWidth = Dimensions.get('window').width;
 const maxHeight = Dimensions.get('window').height;
 
 function WorkDetailScreen(props) {
   const { photo, onClose, sourcePhotoDimensions } = props;
+  const [showGallery, setShowGallery] = useState(false);
 
   const [openProgress, setOpenProgress] = useState(new Animated.Value(0));
   const [openMeasurements, setOpenMeasurements] = useState(null);
@@ -95,9 +102,29 @@ function WorkDetailScreen(props) {
     });
   });
 
+  function onClickGallery() {
+    setShowGallery(true);
+  }
+
+  function onHideGallery() {
+    setShowGallery(false);
+  }
+
+  function renderGallery() {
+    return (
+      <Gallery
+        idGallery={work.id}
+        visible={showGallery}
+        onRequestClose={onHideGallery}
+      />
+    );
+  }
+
   return (
     <Block style={[StyleSheet.absoluteFill]} flex={false}>
+      {onClickGallery && renderGallery()}
       <Block
+        size={50}
         margin={[theme.sizes.padding * 2, theme.sizes.base]}
         flex={false}
         absolute
@@ -126,6 +153,7 @@ function WorkDetailScreen(props) {
       <Block
         margin={[0, theme.sizes.base * 2, 0, theme.sizes.base * 2]}
         absolute
+        size={40}
         index={5}
         style={{ top: theme.sizes.base * 17 }}
       >
@@ -233,7 +261,7 @@ function WorkDetailScreen(props) {
                   />
                 </Block>
                 <Block flex={false}>
-                  <Button style={styles.plus}>
+                  <Button onPress={onClickGallery} style={styles.plus}>
                     <Text h3>+3</Text>
                   </Button>
                 </Block>
