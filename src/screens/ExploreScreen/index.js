@@ -77,8 +77,8 @@ export default function ExploreScreen(props) {
             style={{
               width: item.backgroundWidth,
               height: item.backgroundHeight,
-              maxWidth: 160,
-              borderRadius: theme.sizes.base,
+              // maxWidth: 160,
+              // borderRadius: theme.sizes.base,
             }}
           />
         </TouchableWithoutFeedback>

@@ -24,6 +24,9 @@
     "ios": {
       "bundleIdentifier": "com.marlonmarques.shareworkenvironments",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.marlonmarques.shareworkenvironments"
     }
   }
 }
