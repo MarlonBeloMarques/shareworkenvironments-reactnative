@@ -150,17 +150,7 @@ const WorkDetailScreen = (props) => {
           }),
         }}
       />
-      <Block
-        margin={[0, theme.sizes.base * 2, 0, theme.sizes.base * 2]}
-        absolute
-        size={40}
-        index={5}
-        style={{ top: maxHeight / 3 }}
-      >
-        <Text h2 bold>
-          {work.title}
-        </Text>
-      </Block>
+
       {openMeasurements && (
         <Animated.Image
           source={{ uri: work.background }}
@@ -191,12 +181,38 @@ const WorkDetailScreen = (props) => {
           }}
         />
       )}
-      <Block absolute index={4} style={{ top: maxHeight / 3.5 }}>
+      <Animated.View
+        style={{
+          top: maxHeight / 3.5,
+          position: 'absolute',
+          zIndex: 4,
+          flex: 1,
+          opacity: openProgress,
+          transform: [
+            {
+              translateY: openProgress.interpolate({
+                inputRange: [0, 1],
+                outputRange: [100, 0],
+              }),
+            },
+          ],
+        }}
+      >
         <LinearGradient
           locations={locations}
           colors={[startColor, endColor]}
-          style={{ paddingTop: theme.sizes.base * 5 }}
+          style={{
+            paddingTop: theme.sizes.base * 2,
+          }}
         >
+          <Block
+            flex={false}
+            margin={[0, theme.sizes.base * 2, 0, theme.sizes.base * 2]}
+          >
+            <Text h2 bold>
+              {work.title}
+            </Text>
+          </Block>
           <Block flex={false} padding={[0, theme.sizes.base * 2]}>
             <Text bold>{work.address}</Text>
             <Block
@@ -269,7 +285,7 @@ const WorkDetailScreen = (props) => {
             </Block>
           </Block>
         </LinearGradient>
-      </Block>
+      </Animated.View>
     </Block>
   );
 };
