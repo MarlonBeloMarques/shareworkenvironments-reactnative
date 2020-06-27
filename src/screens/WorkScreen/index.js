@@ -87,20 +87,18 @@ const WorkDetailScreen = (props) => {
       toValue: 1,
       duration: 300,
     }).start();
-  }, []);
 
-  setTimeout(() => {
     setOpenMeasurements({
       sourceX: sourcePhoto.x,
       sourceY: sourcePhoto.y,
       sourceWidth: sourcePhoto.width,
       sourceHeight: sourcePhoto.height,
-      destX: destinePhoto.x,
-      destY: destinePhoto.y,
-      destWidth: destinePhoto.width,
-      destHeight: destinePhoto.height,
+      destX: 0,
+      destY: 0,
+      destWidth: maxWidth,
+      destHeight: 320,
     });
-  }, 1000);
+  }, []);
 
   function onClickGallery() {
     setShowGallery(true);
@@ -137,8 +135,10 @@ const WorkDetailScreen = (props) => {
       <Animated.Image
         ref={elementRef}
         onLayout={(event) => {
-          const { x, y, width, height } = event.nativeEvent.layout;
-          setDestinePhoto({ x, y, width, height });
+          if (elementRef) {
+            // const { x, y, width, height } = event.nativeEvent.layout;
+            // setDestinePhoto({ x: 0, y: 0, width: maxWidth, height: 320 });
+          }
         }}
         source={{ uri: work.background }}
         style={{
