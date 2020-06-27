@@ -42,7 +42,7 @@ const Gallery = (props) => {
               source={{ uri: item }}
               style={{
                 minWidth: 140,
-                height: 150,
+                height: 180,
                 borderRadius: theme.sizes.radius,
               }}
             />
@@ -61,7 +61,7 @@ const Gallery = (props) => {
       swipeDirection={['down']}
       onSwipeComplete={props.onRequestClose}
       onRequestClose={props.onRequestClose}
-      style={{ margin: 0, marginTop: height / 6 }}
+      style={{ margin: 0, marginTop: height / 3 }}
     >
       <Block
         card
@@ -70,7 +70,7 @@ const Gallery = (props) => {
       >
         <Block flex={false} row padding={[theme.sizes.base, theme.sizes.base]}>
           <Text h3 bold white>
-            Galeria
+            Gallery
           </Text>
         </Block>
 
