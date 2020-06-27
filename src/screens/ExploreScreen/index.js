@@ -22,9 +22,15 @@ export default function ExploreScreen(props) {
 
   useEffect(() => {
     const processedImages = resizeImages.processImages(data.content);
-    const rows = resizeImages.buildRows(processedImages, maxWidth);
+    const rows = resizeImages.buildRows(
+      processedImages,
+      maxWidth - theme.sizes.base * 4
+    );
     // eslint-disable-next-line no-const-assign
-    const rowsImage = resizeImages.normalizeRows(rows, maxWidth);
+    const rowsImage = resizeImages.normalizeRows(
+      rows,
+      maxWidth - theme.sizes.base * 4
+    );
     setDataSource(rowsImage);
   }, []);
 
@@ -77,7 +83,6 @@ export default function ExploreScreen(props) {
             style={{
               width: item.backgroundWidth,
               height: item.backgroundHeight,
-              maxWidth: 160,
               borderRadius: theme.sizes.base,
             }}
           />
