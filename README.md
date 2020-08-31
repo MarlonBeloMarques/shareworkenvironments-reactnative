@@ -44,7 +44,7 @@ Shared work environments is an application for sharing work environments in orde
 - Clone this repository on your machine
 
 ```
-https://github.com/MarlonBeloMarques/figureactionstore-reactnative
+https://github.com/MarlonBeloMarques/shareworkenvironments-reactnative
 ```
 ### Getting Started
 
